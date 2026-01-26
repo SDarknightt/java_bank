@@ -1,35 +1,34 @@
 package org.model;
-
 import org.exceptions.InvalidOperationValueException;
 
 public class Account {
-    private static int incrementId = 0;
-    private final int id;
-    private final String ownerDocument;
+
+    private final long accountCode;
+    private final User owner;
     private double balance;
 
-    public Account(String document, double initialBalance) {
+    public Account(User owner, double initialBalance) {
         if (initialBalance < 0) throw new InvalidOperationValueException();
-        this.ownerDocument = document;
-        this.balance = initialBalance;
-        this.id = getNewId();
+        this.owner = owner;
+        this.accountCode = generateAccountCode();
+        deposit(initialBalance);
     }
 
-    public Account(String document) {
-        this(document, 0);
+    public Account(User owner) {
+        this(owner, 0);
     }
 
-    private int getNewId() {
-        incrementId = incrementId + 1;
-        return incrementId;
+    public static long generateAccountCode() {
+        // FIX: Possibility of collision, but for learning is okay
+        return (long) (Math.random() * 9999);
     }
 
-    public int getId() {
-        return this.id;
+    public long getAccountCode() {
+        return this.accountCode;
     }
 
-    public String getOwnerDocument() {
-        return this.ownerDocument;
+    public User getOwner() {
+        return this.owner;
     }
 
     public double getBalance() {
@@ -54,18 +53,18 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return this.ownerDocument.hashCode();
+        return Long.valueOf(this.accountCode).hashCode();
     }
 
     @Override
     public boolean equals(Object object) {
         if (!object.getClass().getName().contains("Account")) return false;
         Account account = (Account) object;
-        return this.getOwnerDocument().equals(account.getOwnerDocument());
+        return this.getAccountCode() == account.getAccountCode();
     }
 
     @Override
     public String toString() {
-        return "ID: " + this.getId() + " " + "BALANCE: " + String.format("%.2f", this.getBalance());
+        return "ID: " + this.getAccountCode() + " " + "BALANCE: " + String.format("%.2f", this.getBalance());
     }
 }
