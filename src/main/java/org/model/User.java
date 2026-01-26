@@ -20,10 +20,44 @@ public class User {
     }
 
     public String getFullName() {
-        return this.firstName + " " + this.lastName;
+        return this.getFirstName() + " " + this.getLastName();
     }
 
     public String getCpf() {
         return this.cpf;
+    }
+
+    public static class UserBuilder {
+        private String firstName;
+        private String lastName;
+        private String cpf;
+
+        public static UserBuilder newBuilder() {
+            return new UserBuilder();
+        }
+
+        public User build() {
+            return new User(this.firstName, this.lastName, this.cpf);
+        }
+
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder setCpf(String cpf) {
+            this.cpf = cpf;
+            return this;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "[Nome Completo] " + this.getFullName() + "\n[CPF] " + this.getCpf();
     }
 }
