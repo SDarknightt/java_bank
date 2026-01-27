@@ -4,7 +4,7 @@ import org.exceptions.InvalidUserFileException;
 import org.exceptions.PersonalizedException;
 import org.interfaces.AccountRepository;
 import org.model.Account;
-import org.model.Costumer;
+import org.model.Customer;
 import org.model.User;
 import org.repository.InMemoryAccountRepository;
 import org.service.BankService;
@@ -69,7 +69,7 @@ public class ViewBank {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] docs = line.split(",");
                 if (docs.length == 3) {
-                    return Costumer.CostumerBuilder.newBuilder()
+                    return Customer.CustomerBuilder.newBuilder()
                                             .setFirstName(docs[0].trim())
                                             .setLastName(docs[1].trim())
                                             .setCpf(docs[2].trim())
